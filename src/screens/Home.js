@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 import { Albums, Button } from '../components'
 import { getUsers } from '../store/actions/users'
 import { getAlbums } from '../store/actions/albums'
-import RNPickerSelect from 'react-native-picker-select'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import PickerModal from 'react-native-picker-modal-view'
+import { SafeAreaView, StyleSheet, TextInput, View } from 'react-native'
 
 const Home = ({ fetchAlbums, fetchUsers, albums, users, isFetching, navigation }) => {
   const [filter, setFilter] = React.useState(null)
@@ -36,16 +36,26 @@ const Home = ({ fetchAlbums, fetchUsers, albums, users, isFetching, navigation }
     <SafeAreaView style={styles.container}>
       <View style={styles.filterBox}>
         <View style={{ flex: 1 }}>
-          <RNPickerSelect
-            value={filter}
-            style={pickerSelectStyles}
-            useNativeAndroidPickerStyle={false}
-            onValueChange={value => setFilter(value)}
-            items={users.map(user => ({ ...user, label: user.name, value: user.id }))}
-            placeholder={{
-              label: 'Filter by User',
-              value: null,
-            }}
+          <PickerModal
+            autoSort={false}
+            selected={filter}
+            showToTopButton={true}
+            requireSelection={false}
+            showAlphabeticalIndex={true}
+            autoGenerateAlphabeticalIndex={true}
+            onSelected={user => setFilter(user.id)}
+            searchPlaceholderText={'Search user...'}
+            selectPlaceholderText={'Filter by user...'}
+            items={users.map(user => ({ ...user, Value: user.id, Name: user.name }))}
+            renderSelectView={(disabled, selected, showModal) => (
+              <TextInput
+                disabled={disabled}
+                onFocus={showModal}
+                style={[styles.filterInput, { borderColor: !!filter ? 'black' : '#CCC' }]}
+                placeholder="Filter by user ..."
+                value={filter ? selected.name : null}
+              />
+            )}
           />
         </View>
         {!!filter && (
@@ -82,19 +92,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     paddingHorizontal: 25,
   },
-})
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30,
-  },
-  inputAndroid: {
+  filterInput: {
     fontSize: 16,
     paddingHorizontal: 12,
     paddingVertical: 10,
