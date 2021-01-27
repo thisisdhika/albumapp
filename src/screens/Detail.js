@@ -1,6 +1,9 @@
 import * as React from 'react'
-import { Button } from '../components'
 import { connect } from 'react-redux'
+import { Button } from '../components'
+import { bindActionCreators } from 'redux'
+import { getPhotos } from '../store/actions/photos'
+import { useTheme } from '@react-navigation/native'
 import {
   ActivityIndicator,
   Dimensions,
@@ -12,13 +15,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { bindActionCreators } from 'redux'
-import { getPhotos } from '../store/actions/photos'
-import { useTheme } from '@react-navigation/native'
 
 const dimens = Dimensions.get('window')
 
-const Detail = ({ route, navigation, photos, isFetching, fetchPhotos }) => {
+const Detail = ({ route, photos, isFetching, fetchPhotos }) => {
   const theme = useTheme()
   const marginThumb = 3.275
   const measureThumb = (dimens.width - 8) / 4 - marginThumb * 2
@@ -64,9 +64,6 @@ const Detail = ({ route, navigation, photos, isFetching, fetchPhotos }) => {
         </View>
         <View style={{ width: dimens.width / 2, height: dimens.width / 2, position: 'relative' }}>
           <Image style={styles.photo} source={{ uri: photoActive.data.url }} />
-          <View style={styles.photoTitle}>
-            <Text style={styles.photoTitleText}>{photoActive.data.title}</Text>
-          </View>
         </View>
         <View style={styles.viewerNavigationBox}>
           <Button
@@ -77,6 +74,9 @@ const Detail = ({ route, navigation, photos, isFetching, fetchPhotos }) => {
             disabled={photoActive.index >= photos.length - 1}
           />
         </View>
+      </View>
+      <View style={styles.photoTitle}>
+        <Text style={styles.photoTitleText}>{photoActive.data.title}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.galleryBox}>
         {photos.map((photo, index) => (
@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingHorizontal: 12,
     textTransform: 'capitalize',
-    textAlign: 'left',
+    textAlign: 'center',
   },
   viewerContainer: {
     marginTop: 15,
     flexWrap: 'wrap',
-    marginBottom: 75,
+    marginBottom: 6,
     flexDirection: 'row',
   },
   viewerNavigationBox: {
@@ -140,23 +140,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCC',
   },
   photoTitle: {
-    position: 'absolute',
-    top: '97%',
-    width: '160%',
-    left: '-30%',
-    backgroundColor: 'white',
     paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 6,
+    paddingHorizontal: 36,
+    marginBottom: 16,
     zIndex: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   photoTitleText: {
     fontSize: 16,
