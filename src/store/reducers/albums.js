@@ -1,4 +1,3 @@
-import colorHelper from 'tinycolor2'
 import { FETCH_ALBUMS_BEGIN, FETCH_ALBUMS_ERROR, FETCH_ALBUMS_SUCCESS } from '../constants'
 
 const initialState = {
@@ -16,10 +15,7 @@ const albumsReducer = (state = initialState, { type, ...action }) => {
       }
 
     case FETCH_ALBUMS_SUCCESS:
-      const data = action.payload.data.map(i => ({
-        ...i,
-        thumbnail: `https://via.placeholder.com/160/${colorHelper.random().toHex8()}`,
-      }))
+      const { data } = action.payload
 
       return {
         ...state,

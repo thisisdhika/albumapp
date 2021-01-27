@@ -37,3 +37,23 @@ export const getPhotos = id => async dispatch => {
     throw error
   }
 }
+
+export const getAllPhotos = () => async dispatch => {
+  const endpoint = `https://jsonplaceholder.typicode.com/photos`
+
+  dispatch(fetchBegin())
+
+  try {
+    const response = await fetch(endpoint)
+
+    const data = await response.json()
+
+    dispatch(fetchSuccess(data))
+
+    return data
+  } catch (error) {
+    dispatch(fetchError(error))
+
+    throw error
+  }
+}

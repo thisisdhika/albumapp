@@ -18,7 +18,7 @@ const MyTheme = {
     ...DefaultTheme.colors,
     primary: 'rgb(255, 45, 85)',
     secondary: 'rgb(28, 28, 30)',
-    background: 'rgb(242, 242, 242)',
+    background: 'rgb(255, 255, 255)',
     card: 'rgb(255, 255, 255)',
     text: 'rgb(28, 28, 30)',
     textLight: 'rgb(255, 255, 255)',
@@ -36,30 +36,7 @@ const Navigation = () => {
           title: 'Photo Album',
         }}>
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen
-          name="Detail"
-          component={DetailScreen}
-          options={({ route }) => ({
-            headerBackTitle: 'Albums',
-            headerTitle: props => (
-              <View {...props}>
-                <Text
-                  style={{
-                    width: '70%',
-                    fontSize: 16,
-                    fontWeight: '600',
-                    alignSelf: 'center',
-                    textAlign: 'center',
-                    textTransform: 'capitalize',
-                  }}
-                  numberOfLines={2}
-                  ellipsizeMode="tail">
-                  {route.params.album.title}
-                </Text>
-              </View>
-            ),
-          })}
-        />
+        <Stack.Screen name="Detail" component={DetailScreen} options={{ title: 'Album Detail' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

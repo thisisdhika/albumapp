@@ -1,6 +1,7 @@
-import { FETCH_ALBUMS_BEGIN, FETCH_ALBUMS_ERROR, FETCH_ALBUMS_SUCCESS } from '../constants'
-import { serializeObjectParams } from '../../helpers'
 import { getUsers } from './users'
+import { getAllPhotos } from './photos'
+import { serializeObjectParams } from '../../helpers'
+import { FETCH_ALBUMS_BEGIN, FETCH_ALBUMS_ERROR, FETCH_ALBUMS_SUCCESS } from '../constants'
 
 export const fetchBegin = () => ({
   type: FETCH_ALBUMS_BEGIN,
@@ -30,6 +31,7 @@ export const getAlbums = (params = {}) => async dispatch => {
      * Get The Users
      */
     const users = await getUsers()(dispatch)
+    const photos = await getAllPhotos()(dispatch)
 
     /**
      * Get The Albums
@@ -43,6 +45,7 @@ export const getAlbums = (params = {}) => async dispatch => {
     const data = jsonData.map(album => ({
       ...album,
       user: users.find(user => user.id === album.userId),
+      photos: photos.filter(photo => album.id === photo.albumId)
     }))
 
     dispatch(fetchSuccess(data))

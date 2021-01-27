@@ -49,6 +49,9 @@ const Detail = ({ route, navigation, photos, isFetching, fetchPhotos }) => {
 
   return photoActive.data && !isFetching ? (
     <SafeAreaView style={styles.container}>
+      <Text ellipsizeMode="tail" numberOfLines={2} style={styles.albumTitle}>
+        {album.title}
+      </Text>
       <View style={styles.viewerContainer}>
         <View style={styles.viewerNavigationBox}>
           <Button
@@ -110,8 +113,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  albumTitle: {
+    fontSize: 22,
+    marginTop: 12,
+    fontWeight: '600',
+    paddingHorizontal: 12,
+    textTransform: 'capitalize',
+    textAlign: 'left',
+  },
   viewerContainer: {
-    marginTop: 25,
+    marginTop: 15,
     flexWrap: 'wrap',
     marginBottom: 75,
     flexDirection: 'row',

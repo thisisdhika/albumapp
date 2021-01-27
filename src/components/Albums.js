@@ -8,20 +8,22 @@ export const AlbumItem = ({ data, onViewPress, ...restProps }) => {
   const { title } = data
 
   return (
-    <View style={styles.item.container} {...restProps}>
-      <Image style={styles.item.thumbnail} source={{ uri: data.thumbnail }} />
-      <View style={styles.item.content}>
-        <Text ellipsizeMode="tail" numberOfLines={2} style={styles.item.title}>
-          {title}
-        </Text>
-        {!!data.user && (
-          <View style={styles.item.description}>
-            <Text style={styles.item.descriptionText}>Album Owner: {data.user.name}</Text>
-            <Text style={styles.item.descriptionText}>Email: {data.user.email}</Text>
-            <Text style={styles.item.descriptionText}>Website: {data.user.website}</Text>
-          </View>
-        )}
-        <Button text="View Album" onPress={event => onViewPress(data, event)} />
+    <View>
+      <Text ellipsizeMode="tail" numberOfLines={2} style={styles.item.title}>
+        {title}
+      </Text>
+      <View style={styles.item.container} {...restProps}>
+        <Image style={styles.item.thumbnail} source={{ uri: data.photos[0].thumbnailUrl }} />
+        <View style={styles.item.content}>
+          {!!data.user && (
+            <View style={styles.item.description}>
+              <Text style={styles.item.descriptionText}>Album Owner: {data.user.name}</Text>
+              <Text style={styles.item.descriptionText}>Email: {data.user.email}</Text>
+              <Text style={styles.item.descriptionText}>Website: {data.user.website}</Text>
+            </View>
+          )}
+          <Button text="View Album" onPress={event => onViewPress(data, event)} />
+        </View>
       </View>
     </View>
   )
@@ -54,7 +56,7 @@ const styles = {
     container: {
       marginTop: 6,
       marginBottom: 12,
-      paddingBottom: 12,
+      paddingBottom: 14,
       flexDirection: 'row',
       alignItems: 'flex-start',
       borderBottomColor: '#CCC',
@@ -71,16 +73,17 @@ const styles = {
       paddingLeft: 10,
       justifyContent: 'space-between',
       alignItems: 'flex-start',
+      paddingVertical: 8,
     },
     title: {
       fontSize: 18,
       fontWeight: '600',
       textTransform: 'capitalize',
+      marginBottom: 4,
     },
     description: {
       flex: 1,
-      marginVertical: 12,
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
     },
     descriptionText: {
       marginBottom: 4,
